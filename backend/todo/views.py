@@ -1,5 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .models import Todo_model
 from .serializers import todo_serializer, LoginSerializer
 
@@ -29,6 +31,25 @@ def login_view(request):
     login(request, user)
     return Response("Logged in")
 
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        del request.session['user']
+    except:
+        return Response({"Bad request"})
+    return Response({"user logged out sucessfully"})
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user(request):
+    content = {
+        'user': str(request.user)
+    }
+    
+    return Response(content)
+    
 
 @api_view(['GET'])
 def get_Routes(request):

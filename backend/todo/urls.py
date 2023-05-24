@@ -7,6 +7,9 @@ urlpatterns = [
     # authentication urls below
     path('register/', views.register, name= 'user_registeration'),
     path('login/', views.login_view, name= 'user_login'),
+    path('logout/', views.logout, name= 'logout'),
+    
+    path('profile/', views.get_user, name = 'user_profile'),
     
     path('routes/', views.get_Routes, name= 'routes'),
     path('create/', views.create_todo, name= 'create_todo'),

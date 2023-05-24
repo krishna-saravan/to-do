@@ -12,7 +12,7 @@ const Login = () => {
         setForm_data({...form_data, [e.target.name]: e.target.value});
     }
 
-    const handelSubmit = async (e) => {
+    const handelLogin = async (e) => {
         e.preventDefault();
         
         try{
@@ -31,17 +31,38 @@ const Login = () => {
         }catch(error){
             console.log(error)
         }
+
+
+        const Logout = async () => {
+            try{
+                await await axios({
+                    method: 'POST',
+                    url : 'todo/logout/',
+                    
+                    data:{},
+                    withCredentials: true,
+                    xsrfHeaderName: "X-CSRFToken",
+            })
+                console.log('user has sucessfully logged out')
+            }catch(error){
+                console.log(error)
+            }
+        }
     }
 
   return (
     <div>
         <h1>Login to see your tasks</h1>
 
-        <form onSubmit={handelSubmit}>
+        <form onSubmit={handelLogin}>
             <input type='text' name='username' value={form_data.username} onChange={handelChange} placeholder='enter username'/>
             <input type= 'password' name='password' value={form_data.password} onChange={handelChange} placeholder='enter password'/>
+            
             <button type='submit'>Login</button>
+            
         </form>
+
+        
     </div>
   )
 }
